@@ -1,0 +1,9 @@
+
+# para acelelerar procesos de instalacionº
+uv
+# para instalar el kernel del entorno en jupyter
+ipykernel
+# para manejar variables de entorno
+python-dotenv
+
+openai
