@@ -36,7 +36,6 @@ from Funciones import (
     obtener_proveedor_embeddings_langchain
 )
 
-
 class TestFuncionesProcesamiento(unittest.TestCase):
     """
     Clase de pruebas para las funciones de procesamiento de texto básico.
@@ -213,10 +212,12 @@ class TestFuncionesPDF(unittest.TestCase):
         Prueba que la función lee correctamente un PDF.
         """
         # Configurar mock
-        mock_doc = Mock()
+        mock_doc = MagicMock()
         mock_pagina = Mock()
         mock_pagina.get_text.return_value = "Texto de la página "
         mock_doc.load_page.return_value = mock_pagina
+        # mock_doc.__len__.return_value = 2
+        # mock_doc.configure_mock(**{'__len__.return_value': 2})
         mock_doc.__len__.return_value = 2
         mock_fitz.open.return_value = mock_doc
         
@@ -411,7 +412,7 @@ class TestEnumsYProveedores(unittest.TestCase):
         self.assertEqual(ProveedorModelo.ANTHROPIC.value, "anthropic")
         self.assertEqual(ProveedorModelo.AMAZON_BEDROCK.value, "bedrock")
 
-    @patch('Funciones.OpenAIEmbeddings')
+    @patch('langchain_openai.OpenAIEmbeddings')
     def test_obtener_proveedor_embeddings_langchain_openai(self, mock_openai):
         """
         Prueba que la función retorna correctamente el proveedor OpenAI.
@@ -419,7 +420,7 @@ class TestEnumsYProveedores(unittest.TestCase):
         obtener_proveedor_embeddings_langchain(ProveedorEmbeddings.OPENAI)
         mock_openai.assert_called_once()
 
-    @patch('Funciones.CohereEmbeddings')
+    @patch('langchain_cohere.CohereEmbeddings')
     def test_obtener_proveedor_embeddings_langchain_cohere(self, mock_cohere):
         """
         Prueba que la función retorna correctamente el proveedor Cohere.
